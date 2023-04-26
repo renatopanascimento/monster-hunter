@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Monster Hunter</title>
+
+    <!-- Vue JS Link -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+    <!-- CSS Link -->
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bruno+Ace&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="app">
+      <div class="panel scores">
+        <div class="score">
+          <h1>Player</h1>
+          <div class="life-bar">
+            <div
+              class="life"
+              :style="{width: playerLife + '%'}"
+              :class="{danger: playerLife <= 20}"
+            ></div>
+          </div>
+          <div>{{playerLife}}%</div>
+        </div>
+
+        <div class="score">
+          <h1>Monster</h1>
+          <div class="life-bar">
+            <div
+              class="life"
+              :style="{width: monsterLife + '%'}"
+              :class="{danger: monsterLife <= 20}"
+            ></div>
+          </div>
+          <div>{{monsterLife}}%</div>
+        </div>
+      </div>
+      <div class="panel result" v-if="hasResult">
+        <p class="lose" v-if="playerLife == 0">YOU LOSE!</p>
+        <p class="win" v-else>YOU WIN!</p>
+      </div>
+      <div class="panel buttons">
+        <template v-if="running">
+          <button class="btn attack" @click="attack(false)">Attack</button>
+          <button class="btn special-attack" @click="attack(true)">
+            Special Attack
+          </button>
+          <button class="btn heal" @click="healAndHurt">Heal</button>
+          <button @click="surrender" class="btn surrender">Surrender</button>
+        </template>
+        <button @click="startGame" v-else class="btn play">New Game</button>
+      </div>
+      <div v-if="logs.length" class="panel logs">
+        <ul>
+          <li v-for="log in logs" :class="log.cls" class="log">{{log.text}}</li>
+        </ul>
+      </div>
+    </div>
+
+    <script src="./js/app.js"></script>
+  </body>
+</html>
